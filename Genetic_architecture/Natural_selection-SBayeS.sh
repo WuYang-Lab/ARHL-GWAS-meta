@@ -23,7 +23,7 @@ ldref="/public/share/wchirdzhq2022/Wulab_share/GCTB_ref/ukbEUR_Imputed"
 gwas="/public/home/shilulu/project_hearing-loss/new_run/all_meta/ARHL_MVP_AJHG_BBJ_reformatMETAL.txt"
 out_block="/public/home/shilulu/project_hearing-loss/new_run/all_meta/gctb/impu_block/ARHL_MVP_AJHG_BBJ_reformatMETAL_gctb_impu"
 
-# step1: impute summary data --block 分blcok跑，总共是591个block，效率更高
+# step1: impute summary data --block
 cmd1="${gctb} --ldm-eigen ${ldref} --gwas-summary ${gwas} --impute-summary --block {TASK_ID} --out ${out_block} --thread 10 > ${out_block}{TASK_ID}.log 2>&1"
 qsubshcom "$cmd1" 10 100G gctb_impu 90:00:00 "-array=1-591"
 
