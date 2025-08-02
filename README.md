@@ -14,6 +14,6 @@ Scripts are listed by the order in the methods section of the manuscript:
 The reposity will be updated soon after peer review.
 
 # Citation
-Lulu Shi, Junpeng Li, Kai Gai, Wenjian Li, Haibin He, Yu Zhao, Huijun Yuan, Yang Wu. Multi-ancestry genome-wide association study of age-related hearing loss in 1.5 million individuals identifies 98 risk loci and reveals key cellular mechanisms. *submit*. 2025.
+Lulu Shi, Junpeng Li, Kai Gai, Wenjian Li, Haibin He, Yu Zhao, Huijun Yuan, Yang Wu. Multi-ancestry genome-wide association study of age-related hearing loss in 1.5 million individuals identifies 98 risk loci and reveals key cellular mechanisms. *under review*. 2025.
 
 For questions, please email us at Lulu Shi (shilulu@stu.wchscu.cn) or Yang Wu (yang.wu@wchscu.edu.cn)
