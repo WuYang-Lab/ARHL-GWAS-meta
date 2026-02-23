@@ -14,6 +14,6 @@ Scripts are listed by the order in the methods section of the manuscript:
 The reposity will be updated soon after peer review.
 
 # Citation
-Lulu Shi, Haibin He, Junpeng Li, Kai Gai, Wenjian Li, Yu Zhao, Huijun Yuan, Yang Wu. Multi-ancestry GWAS of age-related hearing loss identifies 140 loci and key cellular mechanisms. *Accepted in principle by Nat Comm*. 2026.
+Lulu Shi, Haibin He, Junpeng Li, Kai Gai, Wenjian Li, Yu Zhao, Huijun Yuan, Yang Wu. [Multi-ancestry GWAS of age-related hearing loss identifies 140 loci and key cellular mechanisms.](https://www.nature.com/articles/s41467-026-69894-z) *Nat Comm*. 2026.
 
 For questions, please email us at Lulu Shi (shilulu@stu.wchscu.cn) or Yang Wu (yang.wu@wchscu.edu.cn)
