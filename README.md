@@ -11,6 +11,7 @@ Scripts are listed by the order in the methods section of the manuscript:
 - 6: Spatial enrichment of heritability
 - 7: Cell type specific enrichment
 
+<img width="4906" height="5492" alt="Fig1  data_design" src="https://github.com/user-attachments/assets/b06429ff-d026-46ec-8f21-a44d1eafba7a" />
 
 # Citation
 Lulu Shi, Haibin He, Junpeng Li, Kai Gai, Wenjian Li, Yu Zhao, Huijun Yuan, Yang Wu. [Multi-ancestry GWAS of age-related hearing loss identifies 140 loci and key cellular mechanisms.](https://www.nature.com/articles/s41467-026-69894-z) *Nat Commun*. 2026.
