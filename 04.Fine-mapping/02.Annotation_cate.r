@@ -11,3 +11,5 @@ lcs_snp = lcs[Size==1, SNP]
 baseline2 = fread('/public/share/wchirdzhq2022/Wulab_share/GCTB_ref/annot_baseline2.2.txt')
 lcs_snp_annot = baseline2[SNP %in% lcs_snp]
 fwrite(lcs_snp_annot, 'finemapping_snp.txt', col.names=TRUE, sep='\t')
+
+
