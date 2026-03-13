@@ -2,9 +2,6 @@
 ##   cross ancestry meta of hearing loss  ##
 ############################################
 
-#=======================================================#
-#####  MVP hearing loss GWAS format convert         #####
-#=======================================================#
 args       <- commandArgs(TRUE)
 infile     <- args[1]
 outfile    <- args[2]
@@ -33,7 +30,7 @@ df$Idx <- 1
 # save the file
 out_col <- df[, .(SNP, CHR, POS, A1, A2, freq, beta, SE, p, N, Idx)]
 fwrite(out_col, file=paste0(outfile, ".gz"), sep="\t", row.names=FALSE)
-#=======================================================
+
 #! /bin/bash
 RDIR="/public/home/shilulu/anaconda3/envs/R4.2.0/bin/Rscript"
 outdir="/public/share/wchirdzhq2022/Wulab_share/GWAS-summary/MVP/hearing-loss"
@@ -67,11 +64,7 @@ for (f in file38) {
   fwrite(out_added, out_name, sep = "\t")
 }
 
-#=======================================================#
-###### BBJ hearing loss GWAS format convert        #####
-#=======================================================#
 library(data.table)
-
 setwd("/public/share/wchirdzhq2022/Wulab_share/GWAS-summary/BBJ/hearing-loss/hum0197.v3.BBJ.HL.v1")
 df <- fread("GWASsummary_Hearing_Loss_Japanese_SakaueKanai2020.auto.txt.gz")
 
@@ -89,12 +82,7 @@ out_col <- df[, .(SNP, CHR, POS, A1, A2, freq, beta, SE, p, N)]
 out_col = out_col[out_col$CHR != "X", ]
 setwd("/public/share/wchirdzhq2022/Wulab_share/GWAS-summary/BBJ/hearing-loss")
 fwrite(out_col, file="BBJ_EAS_reformat.gz", sep="\t", row.names=FALSE)
-#=======================================================
 
-
-#=======================================================#
-#####  EUR hearing loss GWAS format convert         #####
-#=======================================================#
 #- Trpchevska et al.
 library(data.table)
 
@@ -264,7 +252,7 @@ de_meta <- function(gwas1, gwas2, diffreq=0.2){
 setwd("F:/Shi/ALL_of_my_Job/24-28 Ph.D WCHSCU/2_project_hearing loss/NC_revision/GWAS")
 library(data.table)
 meta = fread("HP.sex.combined.GWAS.tsv.gz", select=c("rs_id","effect_allele","other_allele","effect_allele_frequency","beta","standard_error","p_value","n"))
-sub_c = fread("2247_1.v1.0.fastGWA.gz", select=c("SNP","A1","A2","AF1","BETA","SE","P","N"))
+sub_c = fread("UKBarhl.gz", select=c("SNP","A1","A2","AF1","BETA","SE","P","N"))
 
 gwas1 = gwasQC(meta, MAF=0.01)
 gwas2 = gwasQC(sub_c, MAF=0.01)
@@ -289,10 +277,6 @@ names(res2) = c("CHR", "POS", "SNP", "A1", "A2", "freq", "beta", "SE", "p", "N")
 fwrite(res2, file="Demeta_HP.sex.combined.rawN_Het0001_fltP_intercept.GWAS.gz", sep="\t")
 
 
-#==========================================================#
-#       *^  METAL for meta analysis  ^* 
-#==========================================================#
-#============ The EAS meta BBJ and MVP ============#
 # METAL Options:
 SCHEME STDERR
 AVERAGEFREQ ON
@@ -325,13 +309,11 @@ PROCESS /public/share/wchirdzhq2022/Wulab_share/GWAS-summary/MVP/hearing-loss/MV
 OUTFILE EAS_MVP_BBJ .tbl
 ANALYZE HETEROGENEITY 
 QUIT
-#=========================
-# run metal
+
 metal="/public/home/shilulu/software/METAL/build/bin/metal"
 qsubshcom "$metal EAS_MVP_BBJ_metal.conf" 1 100G METAL 1:00:00 ""
-#=========================
 
-#============ The EUR meta Trpchevska et al., MVP and demeta of De Angelis et al. ============#
+
 # METAL Options:
 SCHEME STDERR
 AVERAGEFREQ ON
@@ -365,16 +347,10 @@ PROCESS /public/home/shilulu/Wulab_project/ARHL/NC_sup_test/00.GWAS/Demeta_HP.se
 OUTFILE EUR_MVP_Trpchevska_De-Angelis .tbl
 ANALYZE HETEROGENEITY 
 QUIT
-#=========================
-# run metal
+
 metal="/public/home/shilulu/software/METAL/build/bin/metal"
 qsubshcom "$metal EUR_MVP_Trpchevska_De-Angelis_metal.conf" 1 100G METAL 1:00:00 ""
-#=========================
 
-
-#======================
-# reformat and filter METAL result 
-# the EAS and EUR, which filter the SNP only occured in one study
 library(dplyr)
 library(stringr)
 library(data.table)
@@ -396,23 +372,16 @@ for (file in files){
 }
 
 
-
-
 dt = fread("EUR_MVP_Trpchevska_De-Angelis_METALfilter.gz")
-
 intercept = 1.1383 
 sca = sqrt(intercept)
 dt[, Z := beta / SE]
 dt[, `:=`(SE_int = SE * sca, Z_int = beta / (SE * sca), P_int = 2 * pnorm(-abs(beta / (SE * sca))))]
-
 out = dt[, .(CHR, POS, SNP, A1, A2, freq, beta, SE_int, P_int, N)]
 names(out) = c("CHR", "POS", "SNP", "A1", "A2", "freq", "beta", "SE", "p", "N")
-
 fwrite(out, "EUR_MVP_Trpchevska_De-Angelis_METALfilter_interceptAdj.gz", sep="\t")
-#=============================#
-#  meta for EAS EUR AFR AMR   #
-# the mean result to analysis #
-#=============================#
+
+
 # METAL Options:
 SCHEME STDERR
 AVERAGEFREQ ON
@@ -449,29 +418,17 @@ OUTFILE All_MVP_Trpchevska_De-Angelis_BBJ .tbl
 ANALYZE HETEROGENEITY 
 QUIT 
 
-#=========================
-# run metal
+
 metal="/public/home/shilulu/software/METAL/build/bin/metal"
 qsubshcom "$metal All_MVP_Trpchevska_De-Angelis_BBJ_metal.conf" 1 100G METAL 90:00:00 ""
 
-#==================================
-# reformat and filter METAL result 
-# and add chr pos for the result
-#  rfm_flt_addchrpos_metal.r
-#==================================
 library(dplyr)
 library(stringr)
 library(data.table)
-
 setwd("/public/home/shilulu/Wulab_project/ARHL/NC_sup_test/01.meta")
 df <- fread( "All_MVP_Trpchevska_De-Angelis_BBJ1.tbl")[, c("Chromosome", "Position", "MarkerName", "Allele1", "Allele2", "Freq1", "Effect", "StdErr", "P-value", "HetISq", "HetChiSq", "HetDf", "HetPVal", "TotalSampleSize")]
 names(df) = c("CHR", "POS", "SNP", "A1", "A2", "freq", "beta", "SE", "p", "HetISq", "HetChiSq", "HetDf", "HetPVal", "N")
 
-# df <- df %>%
-#     filter(HetDf > 0) %>%
-#     mutate(A1 = str_to_upper(A1), A2 = str_to_upper(A2))
-# fwrite(df, "h2/All_MVP_Trpchevska_De-Angelis_BBJ.txt.gz", sep="\t")
-# filter the SNP which only occured at one study
 df_rfm <- df %>%
     filter(HetDf > 0) %>%
     mutate(A1 = str_to_upper(A1), A2 = str_to_upper(A2)) %>%
@@ -486,6 +443,3 @@ fwrite(out_col1, "All_MVP_Trpchevska_De-Angelis_BBJ_filter_chr.gz", sep="\t")
 out_col2 <- df_rfm[, c("SNP", "A1", "A2", "freq", "beta", "SE", "p", "N")]
 fwrite(out_col2, "All_MVP_Trpchevska_De-Angelis_BBJ_filter.gz", sep="\t")
 fwrite(out_col2, "All_MVP_Trpchevska_De-Angelis_BBJ_filter.txt", sep="\t")
-##########
-qsubshcom "Rscript rfm_flt_addchrpos_metal.r" 1 100G METAL 1:00:00 ""
-#############
