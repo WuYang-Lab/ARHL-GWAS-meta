@@ -41,7 +41,7 @@ for file in *.GIA.dbGaP.txt.gz; do
     qsubshcom "$cmd" 1 100G reformat 90:00:00 ""
 done
 
-# hg38to19
+# annot rsid
 setwd("/public/share/wchirdzhq2022/Wulab_share/GWAS-summary/MVP/hearing-loss")
 library(data.table)
 
